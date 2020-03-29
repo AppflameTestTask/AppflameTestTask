@@ -12,15 +12,27 @@ import java.net.URL;
 
 public class SpeedtestAppSimpleFlowTest {
 
+    final private String testAppPackage = "org.zwanoo.android.speedtest";
+    final private String playstorePackage = "com.android.vending";
+
     private AppiumDriver driver = null;
+    private GooglePlayStoreControls playStore = null;
     private SpeedtestAppControls testApp = null;
 
     @BeforeClass
     public void initialSetUp() throws MalformedURLException {
         driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), getPlaystoreCapabilities());
-        GooglePlayStoreControls playStore = new GooglePlayStoreControls(driver);
-        playStore.installTestApp();
-        driver.terminateApp("com.android.vending");
+        if (!driver.isAppInstalled(testAppPackage)) {
+            driver.activateApp(playstorePackage);
+            playStore = new GooglePlayStoreControls(driver);
+            playStore.installTestApp();
+            driver.terminateApp(playstorePackage);
+        }
+
+        System.out.printf("%s %s\n",
+                "*** *** *** *** *** *** *** ***",
+                "Test application has already been installed on a device");
+
         if (driver != null) {
             driver.quit();
         }
@@ -78,14 +90,10 @@ public class SpeedtestAppSimpleFlowTest {
     private DesiredCapabilities getPlaystoreCapabilities() {
 
         // a set of capabilities required for the test app installation from the Google Play Store
-
-        String playStorePackage = "com.android.vending";
-        String playStoreActivity = "com.google.android.finsky.activities.MainActivity";
-
         DesiredCapabilities caps = DesiredCapabilities.android();
 
         caps.setCapability("automationName", "UiAutomator2");
-        caps.setCapability("useNewWDA", true);
+        caps.setCapability("useNewWDA", false);
         caps.setCapability("deviceReadyTimeout", 600);
         caps.setCapability("newCommandTimeOut", 300);
 
@@ -98,10 +106,6 @@ public class SpeedtestAppSimpleFlowTest {
         caps.setCapability("adbExecTimeout", 60000);
         caps.setCapability("androidInstallTimeout", 600000);
 
-        caps.setCapability("appPackage", playStorePackage);
-        caps.setCapability("appActivity", playStoreActivity);
-        caps.setCapability("appWaitActivity", playStoreActivity);
-
         return caps;
     }
 
@@ -113,14 +117,13 @@ public class SpeedtestAppSimpleFlowTest {
         // .apk file is used as a workaround for an adb permissions related issue in a local environment
         // which makes impossible start up of the installed app by means of appPackage' and 'appActivity' capabilities
         // some details are here: https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/android/activity-startup.md#possible-problems-and-solutions
+
+        final String testAppActivity = "com.ookla.mobile4.screens.welcome.WelcomeActivity";
         @SuppressWarnings("ConstantConditions")
         String testAppPath = getClass()
                 .getClassLoader()
                 .getResource("Speedtest.apk")
                 .getPath();
-
-//        final String testAppPackage = "org.zwanoo.android.speedtest";
-        final String testAppActivity = "com.ookla.mobile4.screens.welcome.WelcomeActivity";
 
         DesiredCapabilities caps = DesiredCapabilities.android();
 
@@ -141,9 +144,6 @@ public class SpeedtestAppSimpleFlowTest {
         caps.setCapability("androidInstallTimeout", 180000);
 
         caps.setCapability("browserName", "");
-
-//        caps.setCapability("appPackage", testAppPackage);
-//        caps.setCapability("appActivity", testAppActivity);
         caps.setCapability("appWaitActivity", testAppActivity);
 
         return caps;

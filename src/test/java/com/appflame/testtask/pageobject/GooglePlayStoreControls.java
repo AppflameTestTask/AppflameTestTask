@@ -51,33 +51,9 @@ public class GooglePlayStoreControls {
 
     public void installTestApp() {
 
-        boolean isAppInstalled = false;
-
         getPlaystoreSearchField().click();
         getPlaystoreSearchFieldInputReady().sendKeys(testAppName);
         getAppNameInSuggestionsList().click();
-        getPlaystoreAppPageInstallButton();
-
-        // check if the test app has already been installed on a device
-        try {
-            isAppInstalled = new WebDriverWait(driver, 3)
-                    .until(ExpectedConditions
-                            .textToBePresentInElement(driver
-                                    .findElement(MobileBy
-                                            .className(playstoreAppPageInstallButton)), "Open"));
-        } catch (TimeoutException e) {
-            System.out.printf("%s %s\n",
-                    "*** *** *** *** *** *** *** ***",
-                    "Test application needs to be installed on a device");
-        }
-
-        // terminate method execution if the test app has already been installed
-        if (isAppInstalled) {
-            System.out.printf("%s %s\n",
-                    "*** *** *** *** *** *** *** ***",
-                    "Test application has already been installed on a device");
-            return;
-        }
 
         // start installation process of the test app
         getPlaystoreAppPageInstallButton().click();
@@ -95,6 +71,6 @@ public class GooglePlayStoreControls {
 
         System.out.printf("%s %s\n",
                 "*** *** *** *** *** *** *** ***",
-                "... Test application has been installed successfully");
+                "... Test application has been successfully installed");
     }
 }
