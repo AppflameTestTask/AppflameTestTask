@@ -12,12 +12,6 @@ import java.net.URL;
 
 public class SpeedtestAppSimpleFlowTest {
 
-    // TODO:
-    //  - fix 'Socket hangs up' error
-    //  - make tests run in desired order
-    //  - remove commented out lines as soon as the test flow is successfully implemented
-    //  - handle reporting
-
     private AppiumDriver driver = null;
     private SpeedtestAppControls testApp = null;
 
