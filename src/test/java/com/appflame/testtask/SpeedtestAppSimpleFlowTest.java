@@ -27,11 +27,11 @@ public class SpeedtestAppSimpleFlowTest {
             playStore = new GooglePlayStoreControls(driver);
             playStore.installTestApp();
             driver.terminateApp(playstorePackage);
+        } else {
+            System.out.printf("%s %s\n",
+                    "*** *** *** *** *** *** *** ***",
+                    "Test application has already been installed on a device");
         }
-
-        System.out.printf("%s %s\n",
-                "*** *** *** *** *** *** *** ***",
-                "Test application has already been installed on a device");
 
         if (driver != null) {
             driver.quit();

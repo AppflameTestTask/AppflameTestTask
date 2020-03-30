@@ -2,17 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="Test Suite">
-    <test verbose="2" preserve-order="true" name="/Users/user/projects/java/appflame-test-task">
-        <classes>
-            <class name="com.appflame.testtask.SpeedtestAppSimpleFlowTest">
-                <methods>
-                    <include name="TestAppShowsDownloadStats"/>
-                    <include name="TestAppShowsUploadStats"/>
-                    <include name="TestAppShowsPingStats"/>
-                    <include name="TestAppShowsJitterStats"/>
-                    <include name="TestAppShowsLossStats"/>
-                </methods>
-            </class>
-        </classes>
+    <test verbose="2" name="Random">
+        <packages>
+            <package name="com.appflame.testtask" />
+        </packages>
     </test>
 </suite>
