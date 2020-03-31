@@ -73,6 +73,7 @@ public class SpeedtestAppSimpleFlowTest {
         System.out.printf("Ping value: %s\n", pingStats);
     }
 
+    // the following test fails intermittently as the required value isn't present on the under-test page
     @Test
     public void TestAppShowsJitterStats() {
         // wait until the stats value is present then obtain resulting number and print it out into console
@@ -129,8 +130,8 @@ public class SpeedtestAppSimpleFlowTest {
 
         caps.setCapability("automationName", "UiAutomator2");
         caps.setCapability("useNewWDA", false);
-        caps.setCapability("fullReset", false);
-        caps.setCapability("noReset", false);
+//        caps.setCapability("fullReset", false);
+//        caps.setCapability("noReset", false);
         caps.setCapability("deviceReadyTimeout", 300);
         caps.setCapability("newCommandTimeOut", 300);
 
